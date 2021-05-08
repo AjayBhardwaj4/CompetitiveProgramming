@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+bool isPrime(int a)
+{
+    int n=0;
+    for(int i=2;i<a;i++)
+    {
+        if(a%i==0)
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+int main()
+{
+    int a[10001];
+    a[0]=0;
+    a[1]=0;
+    for(int i=2;i<10001;i++)
+    {
+        int d=0;
+        if(isPrime(i))
+        {
+            int n=i;
+            d=0;
+            while(n)
+            {
+                d+=n%10;
+                n=n/10;
+            }
+            if(isPrime(d))
+            {
+                 a[i]=a[i-1]+1;
+            }
+            else
+            {
+                 a[i]=a[i-1];
+            }
+        }
+        
+        else
+        {
+            a[i]=a[i-1];
+        }
+    }
+   
+    int n;
+    cin>>n;
+    
+    while(n--)
+    {
+        int l,r;
+        cin>>l>>r;
+        cout<<(a[r]-a[l-1])<<endl;
+    }
+    
+    
+    return 0;
+    cout<<a[0]<<" "<<a[1]<<endl;
