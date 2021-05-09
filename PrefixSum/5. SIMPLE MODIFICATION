@@ -1,0 +1,143 @@
+/*
+
+https://www.codechef.com/COW42020/problems/COW3E/
+
+One day Debu, master of 2-dimensional data structures thought of challenging Himans, master of Trees and gave him a problem which is as follows:
+
+This question is the easiest to understand, but no guarantee about the solution. Given a n x m 2d matrix, you have to perform u modifications of the form k,r1,c1,r2,c2. In each modification, you have to add k to all the cells in the block represented by (r1,c1) as upper left corner and (r2,c2) as the lower right corner. After making all the modifications you have to answer q queries of the form r1,c1,r2,c2. The answer of each query is the sum of values of all the cells in the block represented by (r1,c1) as upper left corner and (r2,c2) as the lower right corner.
+
+Help Himans in solving this problem.
+
+Input:
+First line will contain n,m,u,q, the dimensions of the grid,the number of modifications and the number of queries respectively.
+
+Next n lines: Each line containing m integers representing elements of that row (each element between −1000 and 1000 inclusive).
+
+Next u lines : k,r1,c1,r2,c2 , as described in the problem statement ith line representing ith modification.
+
+Next q lines : r1,c1,r2,c2 , as described in the problem statement,ith line representing ith query.
+
+Output:
+For each query, print its answer on a new line, the ith line is the answer to the ith query.
+
+Constraints
+1≤n≤1000
+1≤m≤1000
+1≤u≤100000
+1≤q≤100000
+0≤r1,r2<n
+0≤c1,c2<m
+−10000≤k≤10000
+Sample Input:
+3 3 2 2
+1 2 3
+1 1 0
+4 -2 2
+2 0 0 1 1
+-1 1 0 2 2
+0 0 0 1
+1 1 2 2
+
+Sample Output:
+7
+-1
+
+EXPLANATION:
+After performing all modifications (here 2) the array is
+
+3 4 3
+2 2 -1
+3 -3 1
+
+Now in the first query we are asked the sum from (0,0) to (0,1) which is 3+4 = 7 and in the second query the required sum is 2+(-1) +(-3)+1 = -1.
+
+*/
+
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// your code goes here
+	long long n,m,q,u;
+	cin>>n>>m>>u>>q;
+	
+	long long a[n][m];
+	long long scanLine[n][m+1];
+	
+	for(int i=0;i<n;i++)
+	{
+	    for(int j=0;j<m;j++)
+	    {
+	        cin>>a[i][j];
+	    }
+	    
+	}
+	
+	memset(scanLine, 0, sizeof scanLine);
+	
+	long long k;
+	int r1, c1, r2, c2;
+	while(u--)
+	{	
+		cin>>k>>r1>>c1>>r2>>c2;
+		for(int i=r1;i<=r2;i++)
+		{
+			scanLine[i][c1] += k;
+			scanLine[i][c2+1] -= k;
+		}
+	}
+	
+	for(int i=0;i<n;i++)
+	{
+		long long int sum = 0;
+		for(int j=0;j<m;j++)
+		{
+			sum += scanLine[i][j];
+			a[i][j] += sum;
+		}
+	}
+	
+	long long int prefix[n][m];
+	memset(prefix, 0, sizeof(prefix));
+	
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			long long int sum = a[i][j];
+			if(i!=0)
+				sum += prefix[i-1][j];
+				
+			if(j!=0)
+				sum += prefix[i][j-1];
+
+			if(i!=0 && j!=0)
+				sum -= prefix[i-1][j-1];
+			
+			prefix[i][j] = sum;
+		}
+	}
+	
+	int i1, j1, i2, j2;
+	while(q--)
+	{
+		cin>>i1>>j1>>i2>>j2;
+		long long int sum = prefix[i2][j2];
+		if(i1!=0)
+			sum -= prefix[i1-1][j2];
+		
+		if(j1!=0)
+			sum -= prefix[i2][j1-1];
+		
+		if(i1!=0 && j1!=0)
+			sum += prefix[i1-1][j1-1];
+		
+		cout<<sum<<endl;
+	}
+	return 0;
+}
