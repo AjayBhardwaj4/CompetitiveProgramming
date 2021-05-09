@@ -1,0 +1,80 @@
+/*
+
+https://www.hackerearth.com/practice/algorithms/searching/linear-search/practice-problems/algorithm/mannas-first-name-4/
+
+
+Problem
+Manna is extremely disappointed to find out that no one in his college knows his first name. Even his classmates call him only by his last name. Frustrated, he decides to make his fellow college students know his first name by forcing them to solve this question.
+
+You are given a long string as input in each testcase, containing any ASCII character. Your task is to find out the number of times SUVO and SUVOJIT appears in it.
+
+Note: This problem must be solved in C language only.
+
+Input Format
+The first line contains the number of testcases, T. Next, T lines follow each containing a long string S.
+
+Output Format
+For each long string S, display the no. of times SUVO and SUVOJIT appears in it.
+
+Constraints
+
+1 <= T <= 100
+1 <= Length of each string <= 150
+Sample Input
+3
+SUVOJITSU
+651SUVOMN
+$$$$$SUVOSUVOJIT$$$$$
+Sample Output
+SUVO = 0, SUVOJIT = 1
+SUVO = 1, SUVOJIT = 0
+SUVO = 1, SUVOJIT = 1
+
+*/
+
+
+
+
+
+#include <bits/stdc++.h>
+ 
+using namespace std;
+ 
+int main() {
+	int n;
+	cin >> n;										
+	while(n--)
+	{
+		string s;
+		cin>>s;
+		int i=0;
+		int ns=0,nsj=0;
+		while(i<s.length())
+		{
+			i=s.find("SUVO",i);
+			if(i==-1)
+			{
+				break;
+			}
+ 
+			int t=i;
+			
+			i=i+4;
+			if(i>=0 && (i+2)<s.length())
+			{
+ 
+				if(s[i]=='J' && s[i+1]=='I' && s[i+2]=='T')
+				{
+					nsj++;
+					i=i+3;
+				}				
+			}
+ 
+			if(i==(t+4))
+			{
+				ns++;
+			}
+		}
+		cout<<"SUVO = "<<ns<<", SUVOJIT = "<<nsj<<endl;
+	}		
+}
