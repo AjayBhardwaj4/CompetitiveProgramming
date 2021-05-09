@@ -22,18 +22,21 @@ int main() {
 	
 	long long k;
 	int r1, c1, r2, c2;
-	while(u--){
-		
+	while(u--)
+	{	
 		cin>>k>>r1>>c1>>r2>>c2;
-		for(int i=r1;i<=r2;i++){
+		for(int i=r1;i<=r2;i++)
+		{
 			scanLine[i][c1] += k;
 			scanLine[i][c2+1] -= k;
 		}
 	}
 	
-	for(int i=0;i<n;i++){
+	for(int i=0;i<n;i++)
+	{
 		long long int sum = 0;
-		for(int j=0;j<m;j++){
+		for(int j=0;j<m;j++)
+		{
 			sum += scanLine[i][j];
 			a[i][j] += sum;
 		}
@@ -42,35 +45,38 @@ int main() {
 	long long int prefix[n][m];
 	memset(prefix, 0, sizeof(prefix));
 	
-	for(int i=0;i<n;i++){
-		for(int j=0;j<m;j++){
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
 			long long int sum = a[i][j];
-			if(i!=0){
+			if(i!=0)
 				sum += prefix[i-1][j];
-			}
-			if(j!=0){
+				
+			if(j!=0)
 				sum += prefix[i][j-1];
-			}
-			if(i!=0 && j!=0){
+
+			if(i!=0 && j!=0)
 				sum -= prefix[i-1][j-1];
-			}
+			
 			prefix[i][j] = sum;
 		}
 	}
 	
 	int i1, j1, i2, j2;
-	while(q--){
+	while(q--)
+	{
 		cin>>i1>>j1>>i2>>j2;
 		long long int sum = prefix[i2][j2];
-		if(i1!=0){
+		if(i1!=0)
 			sum -= prefix[i1-1][j2];
-		}
-		if(j1!=0){
+		
+		if(j1!=0)
 			sum -= prefix[i2][j1-1];
-		}
-		if(i1!=0 && j1!=0){
+		
+		if(i1!=0 && j1!=0)
 			sum += prefix[i1-1][j1-1];
-		}
+		
 		cout<<sum<<endl;
 	}
 	return 0;
