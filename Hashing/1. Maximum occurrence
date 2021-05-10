@@ -1,0 +1,105 @@
+/*
+
+https://www.hackerearth.com/practice/data-structures/hash-tables/basics-of-hash-tables/practice-problems/algorithm/maximum-occurrence-9/
+
+Problem
+You are given a string which comprises of lower case alphabets (a-z), upper case alphabets (A-Z), numbers, (0-9) and special characters like !,-.; etc.
+
+You are supposed to find out which character occurs the maximum number of times and the number of its occurrence, in the given string. If two characters occur equal number of times, you have to output the character with the lower ASCII value.
+
+For example, if your string was: aaaaAAAA, your output would be: A 4, because A has lower ASCII value than a.
+
+Input format:
+The input will contain a string.
+
+Output format:
+You've to output two things which will be separated by a space:
+i) The character which occurs the maximum number of times.
+ii) The number of its occurrence.
+
+Constraints:
+The maximum length of the string can be 1000.
+
+Sample Input
+Pulkit is a dog!!!!!!!!!!!!
+Sample Output
+! 12
+
+*/
+
+
+
+
+//Without Using Map
+#include <iostream>
+#include<cstdio>
+using namespace std;
+
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
+	string s;
+	getline(cin,s);									
+	int h[256]={0};
+	for(auto itr: s)
+	{
+		h[int(itr)]++;
+	}	
+	int max=0;
+	char c=NULL;
+	for(int i=0;i<256;i++)
+	{
+		if(h[i]==max and i<int(c))
+		{
+			max=h[i];
+			c=char(i);
+		}
+
+		if(h[i]>max)
+		{
+			max=h[i];
+			c=char(i);
+		}
+	}	
+
+	cout<<c<<" "<<max;
+	// Writing output to STDOUT
+}
+
+
+/*
+//Using Map
+#include <iostream>
+#include<unordered_map>
+using namespace std;
+
+int main() {
+	ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
+	unordered_map<char,int> m;
+	string s;
+	getline(cin,s);
+	int max1=0;
+	char element;
+	for(auto x:s)
+	{
+		m[x]++;
+		if(m[x]>max1)
+		{
+
+			max1=m[x];
+			element=x;
+		}
+		if(m[x]==max1 and int(x)<int(element))
+		{
+			element=x;		
+		}
+	}
+
+	cout<<element<<" "<<max1;
+
+	return 0;
+}
+*/
