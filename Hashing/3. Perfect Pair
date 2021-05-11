@@ -1,0 +1,134 @@
+/*
+
+https://www.hackerearth.com/practice/data-structures/hash-tables/basics-of-hash-tables/practice-problems/algorithm/perfect-pair-df920e90/
+
+
+Problem
+Rajiv and Nitish had a fight because Rajiv was annoying Nitish with his question. Rajiv being a genius in arrays gave Nitish an array of natural numbers A of length N with elements A1,  A2, . . ., AN. Nitish has to find the total amount of perfect pairs in the array.
+  
+A perfect pair (Ai, Aj) is a pair where (Ai + Aj) is a perfect square or a perfect cube and i ≠ j. 
+  
+Since Rajiv and Nitish are not talking with each other after the fight you have been given the question to solve and inturn make both of them a perfect pair again.
+  
+NOTE :-  A pair (Ai, Aj) and (Aj, Ai) are same and not to be counted twice.
+
+ 
+
+Input
+
+The first line on the input contains the a single integer T denoting the number of test cases. The first line of each test case contains a single integer N. The second line contains N space-separated integers A1,  A2, . . ., AN.
+
+Output
+
+For each test case, print a single line containing a single integer denoting the total number of perfect pairs.
+
+Constraints
+
+1 ≤  T ≤ 10
+1 ≤  N ≤ 105
+1 ≤  Ai ≤ 103
+
+Sample Input
+2
+5
+1 2 3 4 5
+4
+1 4 5 8
+Sample Output
+3
+2
+
+*/
+
+
+
+
+//Using map
+#include<bits/stdc++.h>
+using namespace std;
+
+
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    bool sc[2001]={0};
+    for(long long i=1;i<sqrt(2001);i++)    
+	{
+        if(i*i<=2001)
+            sc[i*i]=true;
+        if(i*i*i<=2001)
+            sc[i*i*i]=true;
+    }
+
+    long long t;
+	cin>>t;
+    while(t--)
+    {
+        long long n;
+		cin>>n;
+        vector<long long> v;
+        unordered_map<long,long> mp;
+        for(long long i=0;i<n;i++)
+        {
+            long long a;
+			cin>>a;
+            mp[a]++;
+        }
+        for(auto i:mp)
+            v.push_back(i.first);
+        n=v.size();
+        long long c=0;
+        for(long long i=0;i<n;i++)
+        {
+            long long x=mp[v[i]];
+            if(x>1 && sc[2*v[i]])
+                c+=(x*(x-1))/2;
+            for (long long j=i+1; j<n; j++)
+            {
+                if (sc[v[i]+v[j]])
+                    c+=(x*mp[v[j]]);
+            }
+        }
+        cout<<c<<endl;
+    }
+
+    return 0;
+}
+
+
+//Without using map
+/*
+
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+
+
+int main()
+{
+    int t; cin>>t; while(t--)
+    {
+        ll n,ans=0; cin>>n;
+        ll h[1001]={0}; 
+        ll a[n]; for(int i=0;i<n;i++) { cin>>a[i]; h[a[i]]++;}
+        for(int i=1;i<1001;i++)
+         {
+             for(int j=i; j<1001; j++)
+              {
+                  int s,c;
+                  s=sqrt(i+j);
+                  c=cbrt(i+j);
+                  if((i+j) == s*s || (i+j)==c*c*c){
+                      if(i==j){
+                          ans = ans + h[i]*(h[i]-1)/2;
+                      }
+                      else ans=ans+h[i]*h[j];
+                  }
+              }
+         }
+         cout<<ans<<endl;
+    }
+}
