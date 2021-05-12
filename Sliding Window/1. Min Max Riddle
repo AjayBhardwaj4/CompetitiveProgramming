@@ -1,0 +1,110 @@
+/*
+
+https://www.hackerrank.com/challenges/min-max-riddle/problem
+
+
+Given an integer array of size , find the maximum of the minimum(s) of every window size in the array. The window size varies from  to .
+
+For example, given , consider window sizes of  through . Windows of size  are . The maximum value of the minimum values of these windows is . Windows of size  are  and their minima are . The maximum of these values is . Continue this process through window size  to finally consider the entire array. All of the answers are .
+
+Function Description
+
+Complete the riddle function in the editor below. It must return an array of integers representing the maximum minimum value for each window size from  to .
+
+riddle has the following parameter(s):
+
+arr: an array of integers
+Input Format
+
+The first line contains a single integer, , the size of .
+The second line contains  space-separated integers, each an .
+
+Constraints
+
+
+
+Output Format
+
+Single line containing  space-separated integers denoting the output for each window size from  to .
+
+Sample Input 0
+4
+2 6 1 12
+
+Sample Output 0
+12 2 1 1
+
+Sample Input 1
+7
+1 2 3 5 1 13 3
+
+Sample Output 1
+
+13 3 2 1 1 1 1
+
+*/
+
+
+
+
+
+
+
+/*
+
+//Fails Test Case 2
+vector<long> riddle(vector<long> arr) {
+    // complete this function
+    vector<long> res;
+    long s,e;
+    for(long i=1;i<=arr.size();i++)
+    {
+        s=0;
+        e=s+i;
+        long pos=0;
+        for(long j=1;j<e;j++)
+        {
+            if(arr[j]<arr[pos])
+            {
+                pos=j;
+            }   
+        }
+        long maxv=arr[pos];
+        while((e+1)<=arr.size())
+        {
+            if(arr[pos]>maxv) maxv=arr[pos];
+            e++;
+            if(pos==s)
+            {
+                pos=s+1;
+                for(long j=s+1;j<e;j++)
+                {
+                    if(arr[j]<arr[pos])
+                    {
+                     pos=j;
+                    }
+                }
+                
+            }
+            else
+            {
+                if(arr[e]<arr[pos])
+                {
+                    pos=e;
+                }
+            }
+            s++;
+            
+        }
+        
+        if(arr[pos]>maxv) maxv=arr[pos];
+        
+        res.push_back(maxv);
+        
+    }
+    
+    return res;
+    
+}
+
+*/
