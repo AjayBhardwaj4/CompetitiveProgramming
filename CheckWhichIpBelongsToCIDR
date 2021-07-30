@@ -1,0 +1,131 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+string netmask(string cidr)
+{
+    string o="";
+    string b="";
+    int i=0;
+    while(cidr[i]!='/')
+    {
+        i++;
+    }
+    i++;
+    for(int j=i;j<cidr.length();j++)
+    {
+        o+=cidr[j];
+    }
+    
+    int num;
+    num=stoi(o);
+    
+    for(int k=0; k<32; k++)
+    {
+        if(k<num)
+        {
+            b+="1";
+        }
+        
+        else
+        {
+            b+="0";
+        }
+    }
+    
+    return b;
+
+}
+string netid(string cidr, int mod)
+{
+    
+    string o="";
+    string b="";
+    for(int i=0;i<cidr.length();i++)
+    {
+        if(cidr[i]!='.' and cidr[i]!='/')
+        {
+            o+=cidr[i];
+        }
+        
+        if(cidr[i]=='.' || cidr[i]=='/' )
+        {
+            int num;
+            num=stoi(o);
+            std::string binary = std::bitset<8>(num).to_string();
+            b+=binary;
+            o="";
+        }
+        
+    }
+    
+    if(mod==1)
+    {
+        int num;
+        num=stoi(o);
+        std::string binary = std::bitset<8>(num).to_string();
+        b+=binary;
+        
+    }
+    
+    
+    return b;
+
+}
+
+vector<string> egressvalidator(string cidr, vector<string> ip)
+{
+    vector<string> op;
+    
+    if(cidr=="")
+    {
+        return op;
+    }
+    
+    string nid=netid(cidr,0);
+    string nmask=netmask(cidr);
+    
+    vector<pair<string,int>> nm;
+    for(int i=0;i<ip.size();i++)
+    {
+        string ip1=netid(ip[i],1);
+        nm.push_back(make_pair(ip1,i));
+    }
+    
+    sort(nm.begin(),nm.end());
+    
+    
+    for(long long i=0; i<nm.size();i++)
+    {
+        string s=nm[i].first;
+        int flag=1;
+        for(int i=0;i<32;i++)
+        {
+            if((s[i] & nmask[i]) != nid[i]) flag=0;
+        }
+        
+        if(flag)
+        {
+            op.push_back(ip[nm[i].second]);
+        }
+        
+    }
+    
+    
+    return op;
+    
+}
+
+int main() {
+	// your code goes here
+	vector<string> ip;
+	ip.push_back("50.0.0.3");
+	ip.push_back("50.0.0.1");
+//	ip.push_back("10.255.255.255");
+	vector<string> op=egressvalidator("50.0.0.0/30",ip);
+	for(int i=0;i<op.size();i++)
+	{
+	    cout<<op[i]<<endl;
+	}
+	return 0;
+}
